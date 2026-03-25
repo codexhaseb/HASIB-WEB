@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Premium Security Hub</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Courier New', 'Monaco', monospace;
+            background: linear-gradient(135deg, #0a0f1e 0%, #0a0a1a 100%);
+            min-height: 100vh;
+            color: #00ffcc;
+            overflow-x: hidden;
+        }
+
+        /* Matrix Rain Effect Background */
+        .matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0.15;
+            z-index: 0;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+            padding-bottom: 30px;
+        }
+
+        /* Header - Modified */
+        .header {
+            text-align: center;
+            padding: 15px 0;
+            border-bottom: 2px solid #00ffcc;
+            margin-bottom: 25px;
+            animation: glowPulse 2s infinite;
+        }
+
+        @keyframes glowPulse {
+            0% { border-color: #00ffcc; box-shadow: 0 0 5px #00ffcc; }
+            50% { border-color: #00ffaa; box-shadow: 0 0 15px #00ffcc; }
+            100% { border-color: #00ffcc; box-shadow: 0 0 5px #00ffcc; }
+        }
+
+        .header h1 {
+            font-size: 28px;
+            letter-spacing: 4px;
+            color: #00ffcc;
+            text-shadow: 0 0 10px #00ffcc;
+        }
+
+        /* System Status - Simplified */
+        .system-status {
+            background: rgba(0, 255, 204, 0.1);
+            border: 1px solid #00ffcc;
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #00ffcc;
+            border-radius: 50%;
+            display: inline-block;
+            animation: blink 1s infinite;
+            margin-right: 8px;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .system-status span {
+            color: #00ffcc;
+            font-weight: bold;
+            letter-spacing: 1px;
+            font-size: 11px;
+        }
+
+        /* Stats Cards */
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid #00ffcc;
+            border-radius: 10px;
+            padding: 10px;
+            text-align: center;
+            flex: 1;
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 255, 204, 0.2);
+        }
+
+        .stat-number {
+            font-size: 20px;
+            font-weight: bold;
+            color: #00ffcc;
+        }
+
+        .stat-label {
+            font-size: 9px;
+            color: #88ffdd;
+            margin-top: 4px;
+        }
+
+        /* Button Section - Only 2 Buttons */
+        .button-section {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .premium-btn {
+            background: linear-gradient(135deg, #00aa88, #0066aa);
+            border: none;
+            padding: 16px 20px;
+            border-radius: 12px;
+            color: white;
+            font-size: 15px;
+            font-weight: bold;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 255, 204, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .premium-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 204, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .premium-btn:active::before {
+            left: 100%;
+        }
+
+        .premium-btn:active {
+            transform: scale(0.98);
+        }
+
+        .btn-icon {
+            font-size: 22px;
+        }
+
+        /* Features Grid - 4 boxes */
+        .features-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .feature-card {
+            background: rgba(0, 255, 204, 0.05);
+            border: 1px solid #00ffcc;
+            border-radius: 10px;
+            padding: 12px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 255, 204, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 24px;
+            margin-bottom: 6px;
+        }
+
+        .feature-title {
+            font-size: 11px;
+            color: #00ffcc;
+            font-weight: bold;
+        }
+
+        /* Console Section */
+        .console-section {
+            background: #0a0a0f;
+            border: 2px solid #00ffcc;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 255, 204, 0.1);
+        }
+
+        .console-header {
+            background: #00aa88;
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border-bottom: 1px solid #00ffcc;
+        }
+
+        .console-dot {
+            width: 10px;
+            height: 10px;
+            background: #ff5f5f;
+            border-radius: 50%;
+        }
+
+        .console-dot:nth-child(2) {
+            background: #ffbf2e;
+        }
+
+        .console-dot:nth-child(3) {
+            background: #2eff2e;
+        }
+
+        .console-title {
+            color: #000;
+            font-weight: bold;
+            font-size: 11px;
+            margin-left: 8px;
+        }
+
+        .console-content {
+            padding: 15px;
+            min-height: 220px;
+            max-height: 260px;
+            overflow-y: auto;
+            background: #000;
+            color: #00ffcc;
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+            line-height: 1.5;
+        }
+
+        .console-line {
+            border-left: 2px solid #00ffcc;
+            padding-left: 8px;
+            margin: 5px 0;
+            animation: typeIn 0.2s ease;
+        }
+
+        @keyframes typeIn {
+            from {
+                opacity: 0;
+                transform: translateX(-8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #0a0a1a, #0f0f2a);
+            border: 2px solid #00ffcc;
+            border-radius: 25px;
+            width: 85%;
+            max-width: 350px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 0 40px rgba(0, 255, 204, 0.3);
+            animation: modalPop 0.3s ease;
+        }
+
+        @keyframes modalPop {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .modal-icon {
+            font-size: 60px;
+            margin-bottom: 15px;
+        }
+
+        .modal-title {
+            font-size: 24px;
+            color: #00ffcc;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #00ffcc;
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+
+        .info-box {
+            background: rgba(0, 255, 204, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .info-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(0, 255, 204, 0.2);
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-icon {
+            font-size: 22px;
+            width: 35px;
+        }
+
+        .info-label {
+            color: #88ffdd;
+            font-size: 13px;
+            width: 80px;
+        }
+
+        .info-value {
+            color: #00ffcc;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .modal-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .telegram-btn {
+            background: linear-gradient(135deg, #0088cc, #006699);
+            color: white;
+        }
+
+        .telegram-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(0, 136, 204, 0.4);
+        }
+
+        .back-btn {
+            background: linear-gradient(135deg, #666, #444);
+            color: white;
+        }
+
+        .back-btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #00aa88;
+            color: #000;
+            padding: 8px 18px;
+            border-radius: 25px;
+            font-size: 11px;
+            font-weight: bold;
+            z-index: 1000;
+            animation: slideUp 0.3s ease;
+            white-space: nowrap;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .container {
+                padding: 12px;
+            }
+            .stat-number {
+                font-size: 16px;
+            }
+            .premium-btn {
+                padding: 12px 16px;
+                font-size: 13px;
+            }
+            .modal-content {
+                width: 90%;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="matrix-bg" id="matrixBg"></div>
+    
+    <div class="container">
+        <!-- Header - Simplified -->
+        <div class="header">
+            <h1>⚡ SECURE SHELL ⚡</h1>
+        </div>
+
+        <!-- System Status -->
+        <div class="system-status">
+            <div class="status-dot"></div>
+            <span>SYSTEM ONLINE • 24/7 ACTIVE • ENCRYPTED</span>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number">24/7</div>
+                <div class="stat-label">RUNNING</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">99+</div>
+                <div class="stat-label">TOTAL APPS</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">100%</div>
+                <div class="stat-label">UPTIME</div>
+            </div>
+        </div>
+
+        <!-- Only 2 Buttons -->
+        <div class="button-section">
+            <button class="premium-btn" id="devInfoBtn">
+                <span>👨‍💻 DEVELOPER : CODEX HASIB</span>
+                <span class="btn-icon">⚡</span>
+            </button>
+            <button class="premium-btn" id="bypassBtn">
+                <span>🛡️ BYPASS YOUR PHONE FROM HACKER</span>
+                <span class="btn-icon">🔓</span>
+            </button>
+        </div>
+
+        <!-- Features Grid - 4 boxes -->
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🚀</div>
+                <div class="feature-title">FAST DEPLOY</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <div class="feature-title">LIVE LOAD</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔒</div>
+                <div class="feature-title">SECURE</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🌐</div>
+                <div class="feature-title">24/7 ONLINE</div>
+            </div>
+        </div>
+
+        <!-- Console Section -->
+        <div class="console-section">
+            <div class="console-header">
+                <div class="console-dot"></div>
+                <div class="console-dot"></div>
+                <div class="console-dot"></div>
+                <span class="console-title">CONSOLE v2.0 [READY]</span>
+            </div>
+            <div class="console-content" id="consoleContent">
+                <div id="consoleText"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Developer Info -->
+    <div id="devModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-icon">👨‍💻</div>
+            <h2 class="modal-title">DEVELOPER INFO</h2>
+            <div class="info-box">
+                <div class="info-row">
+                    <div class="info-icon">📛</div>
+                    <div class="info-label">NAME</div>
+                    <div class="info-value">HASEBUL HASAN</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-icon">🌍</div>
+                    <div class="info-label">FROM</div>
+                    <div class="info-value">BANGLADESH</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-icon">💻</div>
+                    <div class="info-label">HOBBY</div>
+                    <div class="info-value">DEVELOPER</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-icon">📱</div>
+                    <div class="info-label">TELEGRAM</div>
+                    <div class="info-value">@codex_haseb</div>
+                </div>
+            </div>
+            <div class="modal-buttons">
+                <button class="modal-btn telegram-btn" id="telegramLinkBtn">
+                    📩 TELEGRAM
+                </button>
+                <button class="modal-btn back-btn" id="closeModalBtn">
+                    🔙 BACK
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let toastTimeout = null;
+        
+        function showToast(message) {
+            const existingToast = document.querySelector('.toast');
+            if(existingToast) existingToast.remove();
+            if(toastTimeout) clearTimeout(toastTimeout);
+            
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.innerHTML = `✨ ${message} ✨`;
+            document.body.appendChild(toast);
+            
+            toastTimeout = setTimeout(() => {
+                if(toast) toast.remove();
+            }, 1800);
+        }
+        
+        // Console Functions
+        const consoleContent = document.getElementById('consoleContent');
+        const consoleTextDiv = document.getElementById('consoleText');
+        
+        function addConsoleLine(text, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            let prefix = '';
+            let color = '#00ffcc';
+            
+            if(type === 'error') {
+                prefix = '[ERROR]';
+                color = '#ff5f5f';
+            } else if(type === 'success') {
+                prefix = '[SUCCESS]';
+                color = '#2eff2e';
+            } else {
+                prefix = '[INFO]';
+                color = '#00ffcc';
+            }
+            
+            const lineDiv = document.createElement('div');
+            lineDiv.className = 'console-line';
+            lineDiv.style.color = color;
+            lineDiv.innerHTML = `> [${timestamp}] ${prefix} ${text}`;
+            
+            consoleTextDiv.appendChild(lineDiv);
+            
+            // Auto scroll
+            consoleContent.scrollTop = consoleContent.scrollHeight;
+            
+            // Keep only last 18 lines
+            const lines = document.querySelectorAll('.console-line');
+            if(lines.length > 18) {
+                lines[0].remove();
+            }
+        }
+        
+        // Fake messages for second button
+        const bypassMessages = [
+            "Initiating security bypass protocol...",
+            "Scanning for vulnerabilities...",
+            "Target: Phone Security System",
+            "Analyzing encryption layers...",
+            "Layer 1 bypassed successfully",
+            "Layer 2 bypassed successfully",
+            "Layer 3 bypassed successfully",
+            "Firewall penetration in progress...",
+            "Firewall bypassed",
+            "Root access acquired",
+            "Hacker IP detected: 45.33.22.11",
+            "Blocking malicious connections...",
+            "All threats neutralized",
+            "Security patch installed",
+            "Phone is now fully protected",
+            "Bypass completed successfully!"
+        ];
+        
+        function typeToConsole(messages, delay = 320) {
+            let i = 0;
+            function addNext() {
+                if(i < messages.length) {
+                    addConsoleLine(messages[i], i === 0 ? 'info' : (i === messages.length - 1 ? 'success' : 'info'));
+                    i++;
+                    setTimeout(addNext, delay);
+                }
+            }
+            addNext();
+        }
+        
+        // Modal elements
+        const devModal = document.getElementById('devModal');
+        
+        // First Button - Open Modal
+        document.getElementById('devInfoBtn').addEventListener('click', () => {
+            devModal.style.display = 'flex';
+            addConsoleLine('Developer info modal opened', 'info');
+        });
+        
+        // Close Modal with Back button
+        document.getElementById('closeModalBtn').addEventListener('click', () => {
+            devModal.style.display = 'none';
+            addConsoleLine('Returned to main screen', 'info');
+        });
+        
+        // Telegram Link Button
+        document.getElementById('telegramLinkBtn').addEventListener('click', () => {
+            window.open('https://t.me/codex_haseb', '_blank');
+            addConsoleLine('Redirecting to Telegram: @codex_haseb', 'success');
+            showToast('Opening Telegram...');
+        });
+        
+        // Close modal when clicking outside
+        window.addEventListener('click', (e) => {
+            if (e.target === devModal) {
+                devModal.style.display = 'none';
+                addConsoleLine('Modal closed', 'info')
+              }
+        });
+        
+        // Second Button - Bypass
+        document.getElementById('bypassBtn').addEventListener('click', () => {
+            addConsoleLine('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━', 'info');
+            addConsoleLine('BYPASS PROTOCOL INITIATED', 'success');
+            setTimeout(() => {
+                typeToConsole(bypassMessages, 320);
+            }, 150);
+            showToast('Bypass started!');
+        });
+        
+        // Matrix Rain Effect
+        function createMatrixRain() {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            const matrixDiv = document.getElementById('matrixBg');
+            matrixDiv.appendChild(canvas);
+            
+            canvas.style.width = '100%';
+            canvas.style.height = '100%';
+            canvas.style.position = 'fixed';
+            canvas.style.top = '0';
+            canvas.style.left = '0';
+            
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+            
+            const chars = "01アイウエオカキクケコサシスセソタチツテト";
+            const fontSize = 14;
+            let columns = Math.floor(canvas.width / fontSize);
+            let drops = new Array(columns).fill(1);
+            
+            function draw() {
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = '#0f0';
+                ctx.font = fontSize + 'px monospace';
+                
+                for (let i = 0; i < drops.length; i++) {
+                    const text = chars[Math.floor(Math.random() * chars.length)];
+                    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                        drops[i] = 0;
+                    }
+                    drops[i]++;
+                }
+            }
+            
+            setInterval(draw, 35);
+        }
+        
+        // Initialize
+        window.addEventListener('load', () => {
+            createMatrixRain();
+            addConsoleLine('Secure Shell v2.0 initialized', 'success');
+            addConsoleLine('System ready • Secure mode active', 'success');
+            addConsoleLine('Click DEVELOPER button for info', 'info');
+            setTimeout(() => {
+                showToast('Welcome to Secure Hub!');
+            }, 500);
+            
+            console.log('%c═══════════════════════════════════════', 'color: #00ffcc');
+            console.log('%c   PREMIUM SECURITY HUB               ', 'color: #00ffcc');
+            console.log('%c   DEVELOPER: Hasebul Hasan           ', 'color: #88ffdd');
+            console.log('%c═══════════════════════════════════════', 'color: #00ffcc');
+        });
+      </script>
+</body>
+</html>
