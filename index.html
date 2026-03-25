@@ -33,7 +33,7 @@
 
         /* Main Container */
         .container {
-            max-width: 500px;
+            max-width: 550px;
             margin: 0 auto;
             padding: 20px;
             position: relative;
@@ -41,10 +41,10 @@
             padding-bottom: 30px;
         }
 
-        /* Header - Modified */
+        /* Header - Empty */
         .header {
             text-align: center;
-            padding: 15px 0;
+            padding: 10px 0;
             border-bottom: 2px solid #00ffcc;
             margin-bottom: 25px;
             animation: glowPulse 2s infinite;
@@ -56,14 +56,7 @@
             100% { border-color: #00ffcc; box-shadow: 0 0 5px #00ffcc; }
         }
 
-        .header h1 {
-            font-size: 28px;
-            letter-spacing: 4px;
-            color: #00ffcc;
-            text-shadow: 0 0 10px #00ffcc;
-        }
-
-        /* System Status - Simplified */
+        /* System Status */
         .system-status {
             background: rgba(0, 255, 204, 0.1);
             border: 1px solid #00ffcc;
@@ -283,7 +276,7 @@
             }
         }
 
-        /* Modal Styles */
+        /* Modal for Developer Info */
         .modal {
             display: none;
             position: fixed;
@@ -312,7 +305,7 @@
 
         @keyframes modalPop {
             from {
-                transform: scale(0.8);
+                transform: scale(0.9);
                 opacity: 0;
             }
             to {
@@ -379,33 +372,22 @@
             margin-top: 20px;
         }
 
-        .modal-btn {
-            padding: 12px 25px;
-            border: none;
-            border-radius: 30px;
-            font-size: 14px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
         .telegram-btn {
             background: linear-gradient(135deg, #0088cc, #006699);
             color: white;
-        }
-
-        .telegram-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 5px 20px rgba(0, 136, 204, 0.4);
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
         }
 
         .back-btn {
             background: linear-gradient(135deg, #666, #444);
             color: white;
-        }
-
-        .back-btn:hover {
-            transform: scale(1.05);
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
         }
 
         /* Toast */
@@ -436,7 +418,6 @@
             }
         }
 
-        /* Responsive */
         @media (max-width: 480px) {
             .container {
                 padding: 12px;
@@ -448,10 +429,6 @@
                 padding: 12px 16px;
                 font-size: 13px;
             }
-            .modal-content {
-                width: 90%;
-                padding: 20px;
-            }
         }
     </style>
 </head>
@@ -459,18 +436,14 @@
     <div class="matrix-bg" id="matrixBg"></div>
     
     <div class="container">
-        <!-- Header - Simplified -->
-        <div class="header">
-            <h1>⚡ SECURE SHELL ⚡</h1>
-        </div>
+        <!-- Header - Empty (SECURE SHELL removed) -->
+        <div class="header"></div>
 
-        <!-- System Status -->
         <div class="system-status">
             <div class="status-dot"></div>
             <span>SYSTEM ONLINE • 24/7 ACTIVE • ENCRYPTED</span>
         </div>
 
-        <!-- Stats -->
         <div class="stats">
             <div class="stat-card">
                 <div class="stat-number">24/7</div>
@@ -486,7 +459,7 @@
             </div>
         </div>
 
-        <!-- Only 2 Buttons -->
+        <!-- Only 2 Buttons - BIND MAIL removed -->
         <div class="button-section">
             <button class="premium-btn" id="devInfoBtn">
                 <span>👨‍💻 DEVELOPER : CODEX HASIB</span>
@@ -498,7 +471,6 @@
             </button>
         </div>
 
-        <!-- Features Grid - 4 boxes -->
         <div class="features-grid">
             <div class="feature-card">
                 <div class="feature-icon">🚀</div>
@@ -518,7 +490,6 @@
             </div>
         </div>
 
-        <!-- Console Section -->
         <div class="console-section">
             <div class="console-header">
                 <div class="console-dot"></div>
@@ -560,12 +531,8 @@
                 </div>
             </div>
             <div class="modal-buttons">
-                <button class="modal-btn telegram-btn" id="telegramLinkBtn">
-                    📩 TELEGRAM
-                </button>
-                <button class="modal-btn back-btn" id="closeModalBtn">
-                    🔙 BACK
-                </button>
+                <button class="telegram-btn" id="telegramLinkBtn">📩 TELEGRAM</button>
+                <button class="back-btn" id="closeModalBtn">🔙 BACK</button>
             </div>
         </div>
     </div>
@@ -614,18 +581,15 @@
             lineDiv.innerHTML = `> [${timestamp}] ${prefix} ${text}`;
             
             consoleTextDiv.appendChild(lineDiv);
-            
-            // Auto scroll
             consoleContent.scrollTop = consoleContent.scrollHeight;
             
-            // Keep only last 18 lines
             const lines = document.querySelectorAll('.console-line');
             if(lines.length > 18) {
                 lines[0].remove();
             }
         }
         
-        // Fake messages for second button
+        // Bypass messages
         const bypassMessages = [
             "Initiating security bypass protocol...",
             "Scanning for vulnerabilities...",
@@ -657,37 +621,33 @@
             addNext();
         }
         
-        // Modal elements
+        // Developer Info Modal
         const devModal = document.getElementById('devModal');
         
-        // First Button - Open Modal
         document.getElementById('devInfoBtn').addEventListener('click', () => {
             devModal.style.display = 'flex';
             addConsoleLine('Developer info modal opened', 'info');
         });
         
-        // Close Modal with Back button
         document.getElementById('closeModalBtn').addEventListener('click', () => {
             devModal.style.display = 'none';
             addConsoleLine('Returned to main screen', 'info');
         });
         
-        // Telegram Link Button
         document.getElementById('telegramLinkBtn').addEventListener('click', () => {
             window.open('https://t.me/codex_haseb', '_blank');
             addConsoleLine('Redirecting to Telegram: @codex_haseb', 'success');
             showToast('Opening Telegram...');
         });
         
-        // Close modal when clicking outside
         window.addEventListener('click', (e) => {
             if (e.target === devModal) {
                 devModal.style.display = 'none';
-                addConsoleLine('Modal closed', 'info')
-              }
+                addConsoleLine('Modal closed', 'info');
+            }
         });
         
-        // Second Button - Bypass
+        // Bypass Button
         document.getElementById('bypassBtn').addEventListener('click', () => {
             addConsoleLine('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━', 'info');
             addConsoleLine('BYPASS PROTOCOL INITIATED', 'success');
@@ -756,6 +716,6 @@
             console.log('%c   DEVELOPER: Hasebul Hasan           ', 'color: #88ffdd');
             console.log('%c═══════════════════════════════════════', 'color: #00ffcc');
         });
-      </script>
+    </script>
 </body>
 </html>
